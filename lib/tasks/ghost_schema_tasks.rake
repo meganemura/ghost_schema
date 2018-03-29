@@ -12,5 +12,15 @@ namespace :db do
         FileUtils.mkdir_p(Rails.root.join('tmp', 'schema_ghosts'))
       end
     end
+
+    # desc 'store versions'
+    task :store_versions_before_migrations do
+      puts 'before'
+    end
+
+    # desc 'copy migrations'
+    task :copy_migrated_versions do
+      puts 'after'
+    end
   end
 end
