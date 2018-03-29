@@ -1,6 +1,7 @@
 module GhostSchema
   class MigrationStore
     class << self
+      attr_accessor :original_migrations_paths
       attr_accessor :before_migrating_migrations
       attr_accessor :after_migrating_migrations
 
@@ -15,11 +16,9 @@ module GhostSchema
       def copy_target_files
         patterns = /#{diff_versions.join('|')}/
 
-        # TODO: rails may have an API
-        migrations_paths = [Rails.root.join('db', 'migrate', '*')]
-
-        migrations_paths.flat_map do |migrations_path|
-          Dir.glob(migrations_path).select {|x| patterns.match?(x) }
+        original_migrations_paths.flat_map do |migrations_path|
+          pattern = File.join(migrations_path, '*')
+          Dir.glob(pattern).select {|x| patterns.match?(x) }
         end
       end
 
