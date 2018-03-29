@@ -15,12 +15,13 @@ namespace :db do
 
     # desc 'store versions'
     task :store_versions_before_migrations do
-      puts 'before'
+      GhostSchema::MigrationStore.before_migrating_migrations = ActiveRecord::Base.connection.migration_context.get_all_versions
     end
 
     # desc 'copy migrations'
     task :copy_migrated_versions do
-      puts 'after'
+      GhostSchema::MigrationStore.after_migrating_migrations = ActiveRecord::Base.connection.migration_context.get_all_versions
+      GhostSchema::MigrationStore.copy_files
     end
   end
 end
